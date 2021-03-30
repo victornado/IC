@@ -2,12 +2,12 @@ package Modelo;
 
 public class Nodo implements Comparable<Nodo> {
 
-	// private int i;
-//	private int j;
+	private int i;
+	private int j;
 	private int id;
 	private Integer coste;
 	private boolean descartado;
-
+	private Nodo anterior;
 	public Nodo() {
 		this.coste = 10000;
 		this.descartado = false;
@@ -30,26 +30,27 @@ public class Nodo implements Comparable<Nodo> {
 		if (getClass() != obj.getClass())
 			return false;
 		Nodo other = (Nodo) obj;
-		if (coste != other.coste)
+		if (id != other.getId())
 			return false;
+
 		return true;
 	}
 
-//	public int getI() {
-//		return i;
-//	}
-//
-//	public void setI(int i) {
-//		this.i = i;
-//	}
-//
-//	public int getJ() {
-//		return j;
-//	}
-//
-//	public void setJ(int j) {
-//		this.j = j;
-//	}
+	public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
+	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -77,7 +78,27 @@ public class Nodo implements Comparable<Nodo> {
 
 	@Override
 	public int compareTo(Nodo o) {
-		return coste.compareTo(o.getCoste());
+		if (id == o.getId())
+			return 0;
+		else if (coste == o.getCoste())
+			return -1;
+		else if (coste < o.getCoste())
+			return -1;
+		else
+			return 1;
 	}
+
+	public Nodo getAnterior() {
+		return anterior;
+	}
+
+	public void setAnterior(Nodo anterior) {
+		this.anterior = anterior;
+	}
+
+	public String toString() {
+		return "["+i+","+j+"] ";
+	}
+	
 
 }
