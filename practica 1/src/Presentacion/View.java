@@ -114,7 +114,7 @@ public class View extends JFrame {
 						getContentPane().add(panel,BorderLayout.CENTER);
 						getContentPane().revalidate();
 						getContentPane().repaint();
-						controlador.start((Integer.parseInt(textFieldFil.getText()),(Integer.parseInt(textFieldCol.getText()));
+						controlador.start(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
 						
 					}
 				}	

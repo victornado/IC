@@ -9,7 +9,7 @@ public class Controller {
 	private AlgoritmoA algoritmo;
 
 	public Controller() {
-		View vista = new View();
+		View vista = new View(this);
 	}
 
 
