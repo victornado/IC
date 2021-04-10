@@ -28,22 +28,22 @@ public class View extends JFrame {
 
 	public View(Controller controlador) {
 
-		setSize(new Dimension(500, 500));
-		setTitle("Algoritmo A*"); 
+		setSize(new Dimension(200, 200));
+		setTitle("ALGORITMO A*"); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		//pone la localizacion en el centro pantalla
 		setLocationRelativeTo(null);
+		setVisible(true);
 		//Main Panel
 		getContentPane().setLayout(new BorderLayout());
 
-		JPanel panelDatos = new JPanel();
-		getContentPane().add(panelDatos, BorderLayout.NORTH);
+		panel = new JPanel();
 		GridBagLayout gbl_panelDatos = new GridBagLayout();
 		gbl_panelDatos.columnWidths = new int[]{0, 0, 0};
 		gbl_panelDatos.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_panelDatos.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		gbl_panelDatos.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panelDatos.setLayout(gbl_panelDatos);
+		panel.setLayout(gbl_panelDatos);
 
 		JLabel lblFilas = new JLabel("Filas");
 		GridBagConstraints gbc_lblFilas = new GridBagConstraints();
@@ -51,7 +51,7 @@ public class View extends JFrame {
 		gbc_lblFilas.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFilas.gridx = 0;
 		gbc_lblFilas.gridy = 0;
-		panelDatos.add(lblFilas, gbc_lblFilas);
+		panel.add(lblFilas, gbc_lblFilas);
 
 		textFieldFil = new JTextField();
 		GridBagConstraints gbc_textFieldFil = new GridBagConstraints();
@@ -59,7 +59,7 @@ public class View extends JFrame {
 		gbc_textFieldFil.insets = new Insets(0, 0, 5, 0);
 		gbc_textFieldFil.gridx = 1;
 		gbc_textFieldFil.gridy = 0;
-		panelDatos.add(textFieldFil, gbc_textFieldFil);
+		panel.add(textFieldFil, gbc_textFieldFil);
 		textFieldFil.setColumns(10);
 
 		JLabel lblCol = new JLabel("Columnas");
@@ -68,7 +68,7 @@ public class View extends JFrame {
 		gbc_lblCol.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCol.gridx = 0;
 		gbc_lblCol.gridy = 1;
-		panelDatos.add(lblCol, gbc_lblCol);
+		panel.add(lblCol, gbc_lblCol);
 
 		textFieldCol = new JTextField();
 		GridBagConstraints gbc_textFieldCol = new GridBagConstraints();
@@ -76,21 +76,21 @@ public class View extends JFrame {
 		gbc_textFieldCol.insets = new Insets(0, 0, 5, 0);
 		gbc_textFieldCol.gridx = 1;
 		gbc_textFieldCol.gridy = 1;
-		panelDatos.add(textFieldCol, gbc_textFieldCol);
+		panel.add(textFieldCol, gbc_textFieldCol);
 		textFieldCol.setColumns(10);
 
-		JButton btnCrear = new JButton("Crear");
+		aceptar = new JButton("Crear");
 		GridBagConstraints gbc_btnCrear = new GridBagConstraints();
 		gbc_btnCrear.gridwidth = 2;
 		gbc_btnCrear.gridx = 0;
 		gbc_btnCrear.gridy = 2;
-		panelDatos.add(btnCrear, gbc_btnCrear);
+		panel.add(aceptar, gbc_btnCrear);
 		
 		//panel=new panelJuego(1,1,controlador);
-		
+		getContentPane().revalidate();
+		getContentPane().repaint();
 		getContentPane().add(panel,BorderLayout.CENTER);
-		btnCrear.addActionListener(new ActionListener() {
-
+		aceptar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -107,15 +107,17 @@ public class View extends JFrame {
 
 					else {
 						
-						getContentPane().remove(panel);
+						
 						/*panel = new panelJuego(Integer.parseInt(textFieldFil.getText()), 
 						Integer.parseInt(textFieldCol.getText()),controlador);*/
-						panel.setVisible(true);
-						getContentPane().add(panel,BorderLayout.CENTER);
+					
+						
 						getContentPane().revalidate();
 						getContentPane().repaint();
-						controlador.start(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
-						
+						controlador.init(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
+						getContentPane().remove(panel);
+						Tablero tablero=new Tablero(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
+						getContentPane().add(tablero,BorderLayout.CENTER);
 					}
 				}	
 			}	
