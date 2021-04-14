@@ -116,8 +116,9 @@ public class View extends JFrame {
 						getContentPane().repaint();
 						controlador.init(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
 						getContentPane().remove(panel);
-						Tablero tablero=new Tablero(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
-						getContentPane().add(tablero,BorderLayout.CENTER);
+						setVisible(false);
+						Tablero tablero=new Tablero(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()),controlador);
+						tablero.setVisible(true);
 					}
 				}	
 			}	
