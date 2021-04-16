@@ -13,13 +13,16 @@ public class AlgoritmoA {
 	private Nodo[][] tablero;
 	private Set<Nodo> listaAbierta;
 	private HashMap<Integer, Nodo> listaCerrada;
+	private HashMap<Integer, Nodo> listaWaypoints;
 	private Pair ini;
 	private Pair fin;
+	private int wp=0;
 
 	public AlgoritmoA(int N, int M) {
 		this.tablero = new Nodo[N][M];
 		this.listaAbierta = new TreeSet<Nodo>();
 		this.listaCerrada = new HashMap<Integer, Nodo>();
+		this.listaWaypoints = new HashMap<Integer, Nodo>();
 		this.ini = null;
 		this.fin = null;
 		generarIds();
@@ -64,6 +67,17 @@ private boolean ComprobarDisponibilidad(int i,int j) {
 		}
 	}
 
+	public boolean crearWaypoint(int i, int j) {
+		if(comprobarNodo(i,j)) {
+			listaWaypoints.put(wp,tablero[i][j]);
+			wp++;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public boolean meterZonaPeligrosa(int i, int j) {
 		if (comprobarNodo(i, j)&& !tablero[i][j].isObstaculo() && ComprobarDisponibilidad(i,j)) {
 			tablero[i][j].setZonaPeligrosa(true);
@@ -86,8 +100,45 @@ private boolean ComprobarDisponibilidad(int i,int j) {
 		}
 	}
 
-	public boolean generarSolucion() {
-		boolean encontrado = false;
+	public void generarSolucion() {
+        boolean encontrado = false;
+		if(!listaWaypoints.isEmpty()) {
+			int wp_cruzados=0;
+			Pair original_ini=ini;
+			Pair original_fin=fin;
+			while(wp_cruzados<listaWaypoints.size()) {
+				
+				fin = new Pair (listaWaypoints.get(wp).getI(), listaWaypoints.get(wp).getJ());
+				if (ini.equals(fin)) {
+					listaCerrada.put(tablero[ini.getI()][ini.getJ()].getId(), tablero[ini.getI()][ini.getJ()]);
+
+				} else {
+					calcularCoste(ini.getI(), ini.getJ(), fin.getI(), fin.getJ(), 0);
+					listaAbierta.add(tablero[ini.getI()][ini.getJ()]); // metemos el nodo inicial a la lista abierta para
+																		// empezar a calcular
+					
+					while (!encontrado && !listaAbierta.isEmpty()) {
+						if (listaAbierta.iterator().hasNext()) {
+							Nodo aux = listaAbierta.iterator().next();
+							listaAbierta.remove(aux);
+							listaCerrada.put(aux.getId(), aux);
+							if (aux == tablero[fin.getI()][fin.getJ()])
+								encontrado = true;
+							else {
+								calcularAdyacentes(aux);
+							}
+						}
+
+					}
+					if (listaAbierta.isEmpty())
+						encontrado = true;
+				}
+				wp_cruzados++;
+			}
+			ini = new Pair (listaWaypoints.get(wp_cruzados-1).getI(), listaWaypoints.get(wp_cruzados-1).getJ());
+			fin = original_fin;
+		}
+		
 		if (ini.equals(fin)) {
 			listaCerrada.put(tablero[ini.getI()][ini.getJ()].getId(), tablero[ini.getI()][ini.getJ()]);
 
@@ -112,7 +163,8 @@ private boolean ComprobarDisponibilidad(int i,int j) {
 			if (listaAbierta.isEmpty())
 				encontrado = true;
 		}
-		return encontrado;
+        return encontrado;
+		
 	}
 
 	public List sol() {
@@ -169,5 +221,7 @@ private boolean ComprobarDisponibilidad(int i,int j) {
 			}
 		}
 	}
+
+	
 
 }

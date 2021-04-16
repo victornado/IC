@@ -30,6 +30,11 @@ public class CellsColor extends DefaultTableCellRenderer {
 				setBackground(Color.YELLOW);
 				setForeground(Color.YELLOW);
 			}
+			else if((int) numero == 6)
+			{
+				setBackground(Color.PINK);
+				setForeground(Color.PINK);
+			}
 
 		} else {
 

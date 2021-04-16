@@ -105,6 +105,18 @@ public class Tablero extends JFrame {
 			}
 		});
 		panel.add(btnNewButton);
+		
+		JButton btnwp = new JButton("Waypoint");
+		btnwp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i, j;
+				i = Integer.parseInt(textField.getText());
+				j = Integer.parseInt(textField_1.getText());
+				table.setValueAt(6, i, j);
+				controlador.run(events.Waypoint, i, j);
+			}
+		});
+		panel.add(btnwp);
 
 		JButton btnNewButton_5 = new JButton("zona Peligrosa");
 		btnNewButton_5.addActionListener(new ActionListener() {

@@ -108,6 +108,8 @@ public class Nodo implements Comparable<Nodo> {
 	public String toString() {
 		return "["+i+","+j+"] ";
 	}
+
+	
 	
 
 }

@@ -41,6 +41,10 @@ public class Controller {
 			return algoritmo.generarSolucion();
 
 		}
+		case Waypoint: {
+			algoritmo.crearWaypoint(i,j);
+		}
+		
 		case GenZonaPeligrosa: {
 			return algoritmo.meterZonaPeligrosa(i, j);
 
