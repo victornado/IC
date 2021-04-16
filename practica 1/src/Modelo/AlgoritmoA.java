@@ -91,12 +91,16 @@ public class AlgoritmoA {
 				encontrado = true;
 		}
 	}
-	public void sol() {
+	public List sol() {
+		List<Nodo> sol=new ArrayList<Nodo>();
 	Nodo aux=tablero[fin.getI()][fin.getJ()];
 	while(aux!=tablero[ini.getI()][ini.getJ()]) {
-		System.out.println(aux);
 		aux=aux.getAnterior();
+		if(aux!=tablero[ini.getI()][ini.getJ()])
+			sol.add(aux);
+		
 	}
+	return sol;
 	}
 
 	private boolean comprobarNodo(int i, int j) {

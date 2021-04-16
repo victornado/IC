@@ -1,9 +1,14 @@
 package Presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import Controlador.Controller;
 import Controlador.events;
+import Modelo.Nodo;
 
 public class Tablero extends JFrame {
 
@@ -25,18 +31,19 @@ public class Tablero extends JFrame {
 	
 	public Tablero(int i, int j,Controller controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 653, 432);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(new BorderLayout());
 		setContentPane(contentPane);
-
+		JPanel p=new JPanel();
 		table = new JTable(i, j);
 		table.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
 		table.setEnabled(false);
 		table.setDefaultRenderer(Object.class, new CellsColor());
-		contentPane.add(table, BorderLayout.CENTER);
+		
+		p.add(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		contentPane.add(p,BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		textField_1 = new JTextField();
@@ -90,9 +97,17 @@ public class Tablero extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controlador.run(events.Run, 1, 1);
+				List<Nodo>lista=controlador.print();
+				for (int i = 0;i<lista.size(); i++) {
+					table.setValueAt(4, lista.get(i).getI(), lista.get(i).getJ());
+				}
+				repaint();
 			}
 		});
+		table.setRowHeight(60);
 		panel.add(btnNewButton_3);
+		pack();
 	}
+	
 
 }

@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Controlador.Controller;
+import Modelo.Nodo;
 
 public class View extends JFrame {
 
@@ -24,7 +26,7 @@ public class View extends JFrame {
 	private JPanel panel;
 	private JTextField textFieldFil;
 	private JTextField textFieldCol;
-
+	private Tablero tablero;
 
 	public View(Controller controlador) {
 
@@ -105,25 +107,18 @@ public class View extends JFrame {
 						JOptionPane.showMessageDialog(null, "ERROR: Please enter the values "
 								+ "between 1 and 50.");
 
-					else {
-						
-						
-						/*panel = new panelJuego(Integer.parseInt(textFieldFil.getText()), 
-						Integer.parseInt(textFieldCol.getText()),controlador);*/
-					
-						
+					else {						
 						getContentPane().revalidate();
 						getContentPane().repaint();
 						controlador.init(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()));
 						getContentPane().remove(panel);
 						setVisible(false);
-						Tablero tablero=new Tablero(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()),controlador);
+						tablero=new Tablero(Integer.parseInt(textFieldFil.getText()), Integer.parseInt(textFieldCol.getText()),controlador);
 						tablero.setVisible(true);
 					}
 				}	
 			}	
 		});
 	}
-
-
+	
 }

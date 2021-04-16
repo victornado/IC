@@ -1,5 +1,7 @@
 package Controlador;
 
+import java.util.List;
+
 import Modelo.AlgoritmoA;
 import Presentacion.View;
 
@@ -35,9 +37,14 @@ public class Controller {
 		}
 		case Run:{
 			algoritmo.generarSolucion();
+			
 			break;
 		}
+		
 		}
+	}
+	public List print() {
+		return algoritmo.sol();
 	}
 
 }
