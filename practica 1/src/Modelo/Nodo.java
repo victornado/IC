@@ -8,10 +8,11 @@ public class Nodo implements Comparable<Nodo> {
 	private double coste;
 	private boolean descartado, zonaPeligrosa;
 	private Nodo anterior;
+
 	public Nodo() {
 		this.coste = 10000;
 		this.descartado = false;
-		zonaPeligrosa=false;
+		zonaPeligrosa = false;
 	}
 
 	@Override
@@ -106,10 +107,12 @@ public class Nodo implements Comparable<Nodo> {
 	}
 
 	public String toString() {
-		return "["+i+","+j+"] ";
+		return "[" + i + "," + j + "] ";
 	}
 
-	
-	
+	public void reset() {
+		this.coste = 10000;
+		anterior=null;
+	}
 
 }
