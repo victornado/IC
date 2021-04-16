@@ -2,6 +2,8 @@ package Controlador;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import Modelo.AlgoritmoA;
 import Presentacion.View;
 
@@ -18,31 +20,36 @@ public class Controller {
 		algoritmo = new AlgoritmoA(filas, columnas);
 	}
 
-	public void run(events evento, int i, int j) {
+	public boolean run(events evento, int i, int j) {
 		switch (evento) {
-		
+
 		case GenObstaculo: {
-			algoritmo.meterObstaculos(i, j);
-			break;
+			return algoritmo.meterObstaculos(i, j);
+
 		}
-		
+
 		case GenIni: {
-			algoritmo.crearInicio(i, j);
-			break;
+			return algoritmo.crearInicio(i, j);
+
 		}
-		
+
 		case GenFin: {
-			algoritmo.crearFin(i, j);
-			break;
+			return algoritmo.crearFin(i, j);
+
 		}
-		case Run:{
-			algoritmo.generarSolucion();
-			
-			break;
+		case Run: {
+			return algoritmo.generarSolucion();
+
 		}
-		
+		case GenZonaPeligrosa: {
+			return algoritmo.meterZonaPeligrosa(i, j);
+
 		}
+
+		}
+		return false;
 	}
+
 	public List print() {
 		return algoritmo.sol();
 	}

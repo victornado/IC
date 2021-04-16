@@ -26,6 +26,9 @@ public class CellsColor extends DefaultTableCellRenderer {
 			} else if ((int) numero == 4) {// camino
 				setBackground(Color.GREEN);
 				setForeground(Color.GREEN);
+			}else if ((int) numero == 5) {// zonaPeligrosa
+				setBackground(Color.YELLOW);
+				setForeground(Color.YELLOW);
 			}
 
 		} else {

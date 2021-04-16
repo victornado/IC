@@ -5,19 +5,20 @@ public class Nodo implements Comparable<Nodo> {
 	private int i;
 	private int j;
 	private int id;
-	private Integer coste;
-	private boolean descartado;
+	private double coste;
+	private boolean descartado, zonaPeligrosa;
 	private Nodo anterior;
 	public Nodo() {
 		this.coste = 10000;
 		this.descartado = false;
+		zonaPeligrosa=false;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + coste;
+		result = (int) (prime * result + coste);
 		return result;
 	}
 
@@ -60,12 +61,12 @@ public class Nodo implements Comparable<Nodo> {
 		return id;
 	}
 
-	public Integer getCoste() {
+	public double getCoste() {
 		return coste;
 	}
 
-	public void setCoste(Integer coste) {
-		this.coste = coste;
+	public void setCoste(double d) {
+		this.coste = d;
 	}
 
 	public void setObstaculo() {
@@ -94,6 +95,14 @@ public class Nodo implements Comparable<Nodo> {
 
 	public void setAnterior(Nodo anterior) {
 		this.anterior = anterior;
+	}
+
+	public boolean isZonaPeligrosa() {
+		return zonaPeligrosa;
+	}
+
+	public void setZonaPeligrosa(boolean zonaPeligrosa) {
+		this.zonaPeligrosa = zonaPeligrosa;
 	}
 
 	public String toString() {

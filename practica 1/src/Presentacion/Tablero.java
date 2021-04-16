@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -28,45 +29,48 @@ public class Tablero extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 
-	
-	public Tablero(int i, int j,Controller controlador) {
+	public Tablero(int i, int j, Controller controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout());
 		setContentPane(contentPane);
-		JPanel p=new JPanel();
+		JPanel p = new JPanel();
 		table = new JTable(i, j);
 		table.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
 		table.setEnabled(false);
 		table.setDefaultRenderer(Object.class, new CellsColor());
-		
+
 		p.add(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		contentPane.add(p,BorderLayout.CENTER);
+		contentPane.add(p, BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		textField_1 = new JTextField();
 		panel.add(textField_1);
 		textField_1.setColumns(10);
-		
+
 		textField = new JTextField();
 		panel.add(textField);
 		textField.setColumns(10);
-		
+
 		JButton btnNewButton_2 = new JButton("ini");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i, j;
 				i = Integer.parseInt(textField.getText());
 				j = Integer.parseInt(textField_1.getText());
-				table.setValueAt(1, i, j);
-				btnNewButton_2.setVisible(false);
-				controlador.run(events.GenIni, i, j);
+				if (controlador.run(events.GenIni, i, j)) {
+					table.setValueAt(1, i, j);
+					btnNewButton_2.setVisible(false);
+				}
+
+				else
+					JOptionPane.showMessageDialog(null, "error al crear el inicio", "Fatal error",
+							JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		panel.add(btnNewButton_2);
-		
 
 		JButton btnNewButton_1 = new JButton("fin");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -74,9 +78,14 @@ public class Tablero extends JFrame {
 				int i, j;
 				i = Integer.parseInt(textField.getText());
 				j = Integer.parseInt(textField_1.getText());
-				table.setValueAt(2, i, j);
-				btnNewButton_1.setVisible(false);
-				controlador.run(events.GenFin, i, j);
+				if (controlador.run(events.GenFin, i, j)) {
+					table.setValueAt(2, i, j);
+					btnNewButton_1.setVisible(false);
+				}
+
+				else
+					JOptionPane.showMessageDialog(null, "error al poner el el fin", "Fatal error",
+							JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		panel.add(btnNewButton_1);
@@ -87,19 +96,40 @@ public class Tablero extends JFrame {
 				int i, j;
 				i = Integer.parseInt(textField.getText());
 				j = Integer.parseInt(textField_1.getText());
-				table.setValueAt(3, i, j);
-				controlador.run(events.GenObstaculo, i, j);
+				if (controlador.run(events.GenObstaculo, i, j))
+					table.setValueAt(3, i, j);
+
+				else
+					JOptionPane.showMessageDialog(null, "error al poner el obstaculo", "Fatal error",
+							JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		panel.add(btnNewButton);
 
+		JButton btnNewButton_5 = new JButton("zona Peligrosa");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i, j;
+				i = Integer.parseInt(textField.getText());
+				j = Integer.parseInt(textField_1.getText());
+				if (controlador.run(events.GenZonaPeligrosa, i, j))
+					table.setValueAt(5, i, j);
+
+				else
+					JOptionPane.showMessageDialog(null, "error al poner una zona peligrosa", "Fatal error",
+							JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		panel.add(btnNewButton_5);
+
 		JButton btnNewButton_3 = new JButton("empezar");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controlador.run(events.Run, 1, 1);
-				List<Nodo>lista=controlador.print();
-				for (int i = 0;i<lista.size(); i++) {
-					table.setValueAt(4, lista.get(i).getI(), lista.get(i).getJ());
+				if (controlador.run(events.Run, 1, 1)) {
+					List<Nodo> lista = controlador.print();
+					for (int i = 0; i < lista.size(); i++) {
+						table.setValueAt(4, lista.get(i).getI(), lista.get(i).getJ());
+					}
 				}
 				repaint();
 			}
@@ -108,6 +138,5 @@ public class Tablero extends JFrame {
 		panel.add(btnNewButton_3);
 		pack();
 	}
-	
 
 }

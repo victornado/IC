@@ -40,11 +40,33 @@ public class AlgoritmoA {
 		}
 		return false;
 	}
-
+private boolean ComprobarDisponibilidad(int i,int j) {
+	boolean ok=true;
+	if(i==fin.getI()) {
+		if(j==fin.getJ()) {
+			ok=false;
+		}
+	}
+	if(i==ini.getI()) {
+		if(j==ini.getJ()) {
+			ok=false;
+		}
+	}
+	return ok;
+}
 	public boolean meterObstaculos(int i, int j) {
-		if (comprobarNodo(i, j)) {
+		if (comprobarNodo(i, j) && !tablero[i][j].isZonaPeligrosa() && ComprobarDisponibilidad(i,j)) {
 			tablero[i][j].setObstaculo();
 			listaCerrada.put(tablero[i][j].getId(), tablero[i][j]);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean meterZonaPeligrosa(int i, int j) {
+		if (comprobarNodo(i, j)&& !tablero[i][j].isObstaculo() && ComprobarDisponibilidad(i,j)) {
+			tablero[i][j].setZonaPeligrosa(true);
 			return true;
 		} else {
 			return false;
@@ -64,8 +86,8 @@ public class AlgoritmoA {
 		}
 	}
 
-	public void generarSolucion() {
-
+	public boolean generarSolucion() {
+		boolean encontrado = false;
 		if (ini.equals(fin)) {
 			listaCerrada.put(tablero[ini.getI()][ini.getJ()].getId(), tablero[ini.getI()][ini.getJ()]);
 
@@ -73,7 +95,7 @@ public class AlgoritmoA {
 			calcularCoste(ini.getI(), ini.getJ(), fin.getI(), fin.getJ(), 0);
 			listaAbierta.add(tablero[ini.getI()][ini.getJ()]); // metemos el nodo inicial a la lista abierta para
 																// empezar a calcular
-			boolean encontrado = false;
+			
 			while (!encontrado && !listaAbierta.isEmpty()) {
 				if (listaAbierta.iterator().hasNext()) {
 					Nodo aux = listaAbierta.iterator().next();
@@ -90,17 +112,19 @@ public class AlgoritmoA {
 			if (listaAbierta.isEmpty())
 				encontrado = true;
 		}
+		return encontrado;
 	}
+
 	public List sol() {
-		List<Nodo> sol=new ArrayList<Nodo>();
-	Nodo aux=tablero[fin.getI()][fin.getJ()];
-	while(aux!=tablero[ini.getI()][ini.getJ()]) {
-		aux=aux.getAnterior();
-		if(aux!=tablero[ini.getI()][ini.getJ()])
-			sol.add(aux);
-		
-	}
-	return sol;
+		List<Nodo> sol = new ArrayList<Nodo>();
+		Nodo aux = tablero[fin.getI()][fin.getJ()];
+		while (aux != tablero[ini.getI()][ini.getJ()]) {
+			aux = aux.getAnterior();
+			if (aux != tablero[ini.getI()][ini.getJ()])
+				sol.add(aux);
+
+		}
+		return sol;
 	}
 
 	private boolean comprobarNodo(int i, int j) {
@@ -111,8 +135,8 @@ public class AlgoritmoA {
 		return false;
 	}
 
-	private void calcularCoste(int i, int j, int n, int m, int costeAcumulado) {
-		int f, g, h;
+	private void calcularCoste(int i, int j, int n, int m, double d) {
+		double f, g, h;
 		// No estamos en diagonal
 		if (i - n == 0 || j - m == 0) {
 			g = costerecto;
@@ -120,11 +144,15 @@ public class AlgoritmoA {
 			g = costediagonal;
 		}
 		h = Math.abs(i - fin.getI()) + Math.abs(j - fin.getJ());
-		f = g + h + costeAcumulado;
+		f = g + h + d;
 		if (f < tablero[i][j].getCoste()) {
 			tablero[i][j].setAnterior(tablero[n][m]);
-			tablero[i][j].setCoste(f);
+			if (tablero[i][j].isZonaPeligrosa()) {
+				tablero[i][j].setCoste(f + 0.1 * f);
+			} else {
+				tablero[i][j].setCoste(f);
 			}
+		}
 	}
 
 	private void calcularAdyacentes(Nodo nodo) {
@@ -134,8 +162,8 @@ public class AlgoritmoA {
 			for (int j = m - 1; j <= m + 1; j++) {
 				if (comprobarNodo(i, j) && !tablero[i][j].isObstaculo()
 						&& !listaCerrada.containsKey(tablero[i][j].getId())) {
-					calcularCoste(i, j, n, m, nodo.getCoste());
 					
+					calcularCoste(i, j, n, m, nodo.getCoste());
 					listaAbierta.add(tablero[i][j]);
 				}
 			}
