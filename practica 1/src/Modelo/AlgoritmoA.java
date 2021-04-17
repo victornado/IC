@@ -126,12 +126,12 @@ public class AlgoritmoA {
 
 		Nodo aux = tablero[metas.get(metas.size() - 1).getI()][metas.get(metas.size() - 1).getJ()];
 		while (aux != tablero[ini.getI()][ini.getJ()]) {
-
+			aux = aux.getAnterior();
 			if (aux != tablero[ini.getI()][ini.getJ()]) {
 				solucion.add(aux);
 			}
 
-			aux = aux.getAnterior();
+			
 
 		}
 		for (int i = 0; i < tablero.length; ++i) {
