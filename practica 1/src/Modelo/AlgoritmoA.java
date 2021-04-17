@@ -47,17 +47,21 @@ public class AlgoritmoA {
 
 	private boolean ComprobarDisponibilidad(int i, int j) {
 		boolean ok = true;
-		for (int cont = 0; i < metas.size() && ok; i++) {
-			if (i == metas.get(cont).getI()) {
-				if (j == metas.get(cont).getJ()) {
+		if (!metas.isEmpty()) {
+			for (int cont = 0; i < metas.size() && ok; i++) {
+				if (i == metas.get(cont).getI()) {
+					if (j == metas.get(cont).getJ()) {
+						ok = false;
+					}
+				}
+				cont++;
+			}
+		}
+		if (ini != null) {
+			if (i == ini.getI()) {
+				if (j == ini.getJ()) {
 					ok = false;
 				}
-			}
-			cont++;
-		}
-		if (i == ini.getI()) {
-			if (j == ini.getJ()) {
-				ok = false;
 			}
 		}
 		return ok;
@@ -83,7 +87,7 @@ public class AlgoritmoA {
 	}
 
 	public boolean crearWaypoint(int i, int j) {
-		if (comprobarNodo(i, j)) {
+		if (comprobarNodo(i, j) && ComprobarDisponibilidad(i, j)) {
 			metas.add(new Pair(i, j));
 			return true;
 		} else {
@@ -122,11 +126,13 @@ public class AlgoritmoA {
 
 		Nodo aux = tablero[metas.get(metas.size() - 1).getI()][metas.get(metas.size() - 1).getJ()];
 		while (aux != tablero[ini.getI()][ini.getJ()]) {
-			aux = aux.getAnterior();
+
 			if (aux != tablero[ini.getI()][ini.getJ()]) {
-				System.out.println(aux.getI() + " " + aux.getJ());
 				solucion.add(aux);
 			}
+
+			aux = aux.getAnterior();
+
 		}
 		for (int i = 0; i < tablero.length; ++i) {
 			for (int j = 0; j < tablero[i].length; ++j) {
@@ -146,20 +152,23 @@ public class AlgoritmoA {
 		Pair firstIni = ini;
 		for (int i = metas.size() - 1; i >= 0 && ok; i--) {
 			ok = resuelveCaso();
-			meterSolucion();
-			resetearListaCerrada();
-			if (!listaAbierta.isEmpty()) {
-				Nodo aux = listaAbierta.iterator().next();
-				this.listaAbierta = new TreeSet<Nodo>();
-				listaAbierta.add(aux);
-			} else {
-				this.listaAbierta = new TreeSet<Nodo>();
+			if (ok) {
+				meterSolucion();
+				resetearListaCerrada();
+				if (!listaAbierta.isEmpty()) {
+					Nodo aux = listaAbierta.iterator().next();
+					this.listaAbierta = new TreeSet<Nodo>();
+					listaAbierta.add(aux);
+				} else {
+					this.listaAbierta = new TreeSet<Nodo>();
+				}
+
+				ini = metas.get(i);
+
+				if (i != 0)
+					metas.remove(i);
 			}
 
-			ini = metas.get(i);
-			
-			if (i != 0)
-				metas.remove(i);
 		}
 		ini = firstIni;
 		return ok;
@@ -182,7 +191,6 @@ public class AlgoritmoA {
 				Iterator<Nodo> iterator = listaAbierta.iterator();
 				if (iterator.hasNext()) {
 					Nodo aux = iterator.next();
-					// listaAbierta.remove(aux);
 
 					if (aux == tablero[metas.get(metas.size() - 1).getI()][metas.get(metas.size() - 1).getJ()])
 						encontrado = true;
@@ -194,13 +202,11 @@ public class AlgoritmoA {
 				}
 
 			}
-			if (listaAbierta.isEmpty())
-				encontrado = true;
 		}
 		return encontrado;
 	}
 
-	public List sol() {
+	public List<Nodo> sol() {
 		return solucion;
 	}
 
@@ -222,14 +228,13 @@ public class AlgoritmoA {
 		}
 		h = Math.abs(i - metas.get(metas.size() - 1).getI()) + Math.abs(j - metas.get(metas.size() - 1).getJ());
 		f = g + h + d;
-
+		if (tablero[i][j].isZonaPeligrosa()) {
+			f = f + 0.2 * f;
+		}
 		if (f < tablero[i][j].getCoste()) {
 			tablero[i][j].setAnterior(tablero[n][m]);
-			if (tablero[i][j].isZonaPeligrosa()) {
-				tablero[i][j].setCoste(f + 0.1 * f);
-			} else {
-				tablero[i][j].setCoste(f);
-			}
+			tablero[i][j].setCoste(f);
+
 		}
 	}
 

@@ -112,7 +112,7 @@ public class Nodo implements Comparable<Nodo> {
 
 	public void reset() {
 		this.coste = 10000;
-		anterior=null;
+		anterior = null;
 	}
 
 }

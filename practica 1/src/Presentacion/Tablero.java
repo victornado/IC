@@ -1,14 +1,10 @@
 package Presentacion;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -71,6 +67,8 @@ public class Tablero extends JFrame {
 			}
 		});
 		panel.add(btnNewButton_2);
+		
+		JButton btnwp = new JButton("Waypoint");
 
 		JButton btnNewButton_1 = new JButton("fin");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -81,6 +79,7 @@ public class Tablero extends JFrame {
 				if (controlador.run(events.GenFin, i, j)) {
 					table.setValueAt(2, i, j);
 					btnNewButton_1.setVisible(false);
+					btnwp.setVisible(true);
 				}
 
 				else
@@ -105,8 +104,9 @@ public class Tablero extends JFrame {
 			}
 		});
 		panel.add(btnNewButton);
+
 		
-		JButton btnwp = new JButton("Waypoint");
+		btnwp.setVisible(false);
 		btnwp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i, j;
@@ -142,7 +142,9 @@ public class Tablero extends JFrame {
 					for (int i = 0; i < lista.size(); i++) {
 						table.setValueAt(4, lista.get(i).getI(), lista.get(i).getJ());
 					}
-				}
+				} else
+					JOptionPane.showMessageDialog(null, "no ha podido encontrar solucion a dicho planteamiento",
+							"Fatal error", JOptionPane.ERROR_MESSAGE);
 				repaint();
 			}
 		});

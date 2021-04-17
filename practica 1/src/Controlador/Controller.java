@@ -2,18 +2,16 @@ package Controlador;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import Modelo.AlgoritmoA;
+import Modelo.Nodo;
 import Presentacion.View;
 
 public class Controller {
 
 	private AlgoritmoA algoritmo;
-	private View vista;
 
 	public Controller() {
-		vista = new View(this);
+		View vista = new View(this);
 	}
 
 	public void init(Integer filas, Integer columnas) {
@@ -42,9 +40,9 @@ public class Controller {
 
 		}
 		case Waypoint: {
-			algoritmo.crearWaypoint(i,j);
+			algoritmo.crearWaypoint(i, j);
 		}
-		
+
 		case GenZonaPeligrosa: {
 			return algoritmo.meterZonaPeligrosa(i, j);
 
@@ -54,7 +52,7 @@ public class Controller {
 		return false;
 	}
 
-	public List print() {
+	public List<Nodo> print() {
 		return algoritmo.sol();
 	}
 
