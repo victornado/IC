@@ -18,8 +18,8 @@ public class CellsColor extends DefaultTableCellRenderer {
 				setBackground(Color.LIGHT_GRAY);
 				setForeground(Color.LIGHT_GRAY);
 			} else if ((int) numero == 2) {// fin
-				setBackground(Color.DARK_GRAY);
-				setForeground(Color.DARK_GRAY);
+				setBackground(Color.GRAY);
+				setForeground(Color.GRAY);
 			} else if ((int) numero == 3) {// obstaculo
 				setBackground(Color.RED);
 				setForeground(Color.RED);

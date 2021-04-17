@@ -22,6 +22,7 @@ public class Tablero extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JTable leyenda_tabla;
 	private JTextField textField;
 	private JTextField textField_1;
 
@@ -151,6 +152,28 @@ public class Tablero extends JFrame {
 		table.setRowHeight(60);
 		panel.add(btnNewButton_3);
 		pack();
+		
+		JPanel leyenda = new JPanel();
+		init_leyenda();
+		leyenda.add(leyenda_tabla);
+		
+		contentPane.add(leyenda, BorderLayout.EAST);
+		 
+		
+		
 	}
-
+	private void init_leyenda() {
+		leyenda_tabla = new JTable(7, 1);
+		leyenda_tabla.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
+		leyenda_tabla.setEnabled(false);
+		leyenda_tabla.setDefaultRenderer(Object.class, new LeyendaCells());
+		
+		leyenda_tabla.setValueAt("Inicio", 0, 0);
+		leyenda_tabla.setValueAt("Final", 1, 0);
+		leyenda_tabla.setValueAt("Obstáculo", 2, 0);
+		leyenda_tabla.setValueAt("Camino", 3, 0);
+		leyenda_tabla.setValueAt("Z.Peligrosa", 4, 0);
+		leyenda_tabla.setValueAt("Waypoint", 5, 0);
+		leyenda_tabla.setValueAt("Césped", 6, 0);
+	}
 }
