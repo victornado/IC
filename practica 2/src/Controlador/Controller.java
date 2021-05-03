@@ -1,5 +1,8 @@
 package Controlador;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import Modelo.ID3;
 import Presentacion.View;
 
@@ -12,7 +15,14 @@ public class Controller {
 	}
 
 	public void init(Integer filas, Integer columnas) {
-		algoritmo = new ID3();
+		try {
+			algoritmo = new ID3();
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}catch(IOException io) {
+			io.printStackTrace();
+		}
 	}
 
 	public boolean run(events evento, int i, int j) {
