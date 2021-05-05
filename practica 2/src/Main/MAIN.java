@@ -11,7 +11,7 @@ public class MAIN {
 
 		//Controller c =new Controller();
 		try {
-			ID3 e= new ID3();
+			ID3 e= new ID3(5,14);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class Tabla {
 	private String[][] tabla;
-	private Map<String, Integer> veces;
-	private List<HashSet<String>> tipos;
+	private Map<String, Double> veces,positivos;//numero de veces que se repite un string
+	private List<HashSet<String>> tipos;//numero de diferentes string que hay en una columna
 	
 	private String[] nombres;
 	private int cont;
@@ -22,7 +22,8 @@ public class Tabla {
 		}
 		tabla = new String[j][i];
 		nombres = new String[i];
-		veces = new HashMap<String, Integer>();
+		veces = new HashMap<String, Double>();
+		positivos = new HashMap<String, Double>();
 	}
 
 	public void meterNombres(String datos, String separador) {
@@ -38,13 +39,23 @@ public class Tabla {
 		String[] aux = datos.split(separador);
 		int j = 0;
 		for (String string : aux) {
-			Integer dato = veces.get(string);
+			Double dato = veces.get(string);
 			tipos.get(j).add(string);
 			if (dato != null) {// ya se habia insertado
 				veces.remove(string);
 				veces.put(string, dato + 1);
 			} else {
-				veces.put(string, 1);
+				veces.put(string, 1.0);
+			}
+			
+			if(aux[aux.length-1].equals("si")) {
+				Double pos = positivos.get(string);
+				if (pos != null) {// ya se habia insertado
+					positivos.remove(string);
+					positivos.put(string, pos + 1);
+				} else {
+					positivos.put(string, 1.0);
+				}
 			}
 			tabla[cont][j] = string;
 			j++;
@@ -56,7 +67,15 @@ public class Tabla {
 		return tabla;
 	}
 
-	public Map<String, Integer> getVeces() {
+	public Map<String, Double> getVeces() {
 		return veces;
+	}
+
+	public List<HashSet<String>> getTipos() {
+		return tipos;
+	}
+
+	public Map<String, Double> getPositivos() {
+		return positivos;
 	}
 }
