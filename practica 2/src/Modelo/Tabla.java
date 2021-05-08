@@ -47,7 +47,7 @@ public class Tabla {
 	public void meterFila(String datos, String separador, String filtro, int c) {
 		String[] aux = datos.split(separador);
 		if (filtro == null || aux[c].equals(filtro)) {
-			
+
 			int j = 0;
 			for (String string : aux) {
 				Double dato = veces.get(string);

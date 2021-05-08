@@ -9,14 +9,14 @@ public class MAIN {
 
 	public static void main(String[] args) {
 
-		//Controller c =new Controller();
+		// Controller c =new Controller();
 		try {
-			ID3 e= new ID3(5,14);
+			ID3 e = new ID3(5, 14);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.err.println("no ha encontrado el fichero Juego.txt, ni atributosJuego.txt");
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("error en la entrada de datos en la tabla");
 			e.printStackTrace();
 		}
 	}

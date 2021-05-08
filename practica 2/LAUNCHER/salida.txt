@@ -1,0 +1,16 @@
+El arbol de decision ID3 generado para este caso es:
+_____________________
+TiempoExterior
+|--- nublado
+|   |__ si
+|--- soleado
+|   |--- normal
+|   |   |__ si
+|   |__ alta
+|       |__ no
+|__ lluvioso
+    |--- falso
+    |   |__ si
+    |__ verdad
+        |__ no
+_____________________

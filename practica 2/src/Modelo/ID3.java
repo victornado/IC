@@ -1,8 +1,11 @@
 package Modelo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +20,7 @@ public class ID3 {
 	private node arbol;
 	private Queue<node> queue;
 	private int columnas;
-	
+
 	public ID3(int columnas, int filas) throws FileNotFoundException, IOException {
 		tabla = new Tabla(columnas, filas);
 		done = new Boolean[columnas - 1];
@@ -29,14 +32,28 @@ public class ID3 {
 		ganancia = new ArrayList<Pair>(columnas);
 		calculaMeritos();
 		CalculaGanancia();
-		
-
 		int columna = elegirNodo();
 		String nombres[] = tabla.getNombres();
 		arbol = new node(nombres[columna]);
 		queue.add(arbol);
 		hacerArbol(columna);
 		recalcularTabla(columna);
+		System.out.println(arbol);
+		escribirSolucion(arbol.toString());
+	}
+
+	private void escribirSolucion(String salida) throws FileNotFoundException, IOException {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter("salida.txt"))) {
+			bw.write("El arbol de decision ID3 generado para este caso es:");
+			bw.newLine();
+			bw.write("_____________________");
+			bw.newLine();
+			bw.write(salida);
+			//bw.newLine();
+			bw.write("_____________________");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void recalcularTabla(int columnaPrincipal) throws FileNotFoundException, IOException {
@@ -52,12 +69,12 @@ public class ID3 {
 			calculaMeritos();
 			CalculaGanancia();
 			Queue<node> q2 = new LinkedList<node>();
-			q2=queue;
+			q2 = queue;
 			int c = elegirNodo();
-			queue =new LinkedList<node>();
+			queue = new LinkedList<node>();
 			queue.add(actual);
 			hacerArbol(c);
-			queue=q2;
+			queue = q2;
 		}
 	}
 
@@ -79,7 +96,7 @@ public class ID3 {
 				} else {
 					node aux = new node(s);
 					nodo.insertarNodo(aux);
-					if ( tabla.getPositivos().get(s) == null) {
+					if (tabla.getPositivos().get(s) == null) {
 						node no = new node("no");
 						aux.insertarNodo(no);
 					} else {
@@ -126,8 +143,8 @@ public class ID3 {
 
 	private void calculaMeritos() {
 		String[][] tabla1 = tabla.getTabla();
-		for (int i = 0; i < columnas-1; i++) {
-			if (done[i]==null) {
+		for (int i = 0; i < columnas - 1; i++) {
+			if (done[i] == null) {
 				// N
 				int N = tabla1.length;
 
@@ -152,7 +169,7 @@ public class ID3 {
 				for (int k = 0; k < s.length; k++) {
 					sol += entropia(s[k]) * r[k];
 				}
-				meritos.add(new Pair(i,sol));
+				meritos.add(new Pair(i, sol));
 			}
 		}
 	}
@@ -165,12 +182,12 @@ public class ID3 {
 	}
 
 	private double entropia(String s) {
-		if(tabla.getPositivos().get(s)!=null) {
-		Double p = tabla.getPositivos().get(s) / tabla.getVeces().get(s);
-		Double n = (tabla.getVeces().get(s) - tabla.getPositivos().get(s)) / tabla.getVeces().get(s);
-		return (-log(p, 2) * (p) - n * log(n, 2));
-		}
-		else return 0;
+		if (tabla.getPositivos().get(s) != null) {
+			Double p = tabla.getPositivos().get(s) / tabla.getVeces().get(s);
+			Double n = (tabla.getVeces().get(s) - tabla.getPositivos().get(s)) / tabla.getVeces().get(s);
+			return (-log(p, 2) * (p) - n * log(n, 2));
+		} else
+			return 0;
 	}
 
 	private void CalculaGanancia() {
@@ -179,7 +196,7 @@ public class ID3 {
 
 		Double EGeneral = (-log(p, 2) * (p) - n * log(n, 2));
 		for (Pair d : meritos) {
-			ganancia.add(new Pair(d.getI(),EGeneral - d.getJ()));
+			ganancia.add(new Pair(d.getI(), EGeneral - d.getJ()));
 		}
 
 	}
