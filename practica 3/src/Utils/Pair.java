@@ -1,4 +1,4 @@
-package Modelo;
+package Utils;
 
 public class Pair {
 	private int i;
