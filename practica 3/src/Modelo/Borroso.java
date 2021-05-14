@@ -51,11 +51,13 @@ public class Borroso extends algoritmo {
 	
 	
 	public void entrenarAlgoritmo() {
+		do {
 			for(int elem=0;elem<pertenencia[0].length;elem++)
 			{
 				//Pertenencia del punto elem a las medias
 				pertenenciaPunto(elem);
 			}
+		} while (!recalcularMedias());
 	}
 	private void pertenenciaPunto(int elem) {
 		Double valor_media1=0.0;
@@ -118,9 +120,9 @@ public class Borroso extends algoritmo {
 		for(int i=0;i<medias.length;i++) {
 			Double valor=0.0;
 			for(int n=0;n<medias[i].length;n++) {
-				valor+= nuevasMedias[i][n] - medias[i][n];
+				valor+= Math.pow(nuevasMedias[i][n] - medias[i][n], 2);
 			}
-		resultados[i]=Math.abs(valor);	
+		resultados[i]=Math.sqrt(valor);	
 		}
 		
 		if(resultados[0]<tolerancia && resultados[1]<tolerancia)
