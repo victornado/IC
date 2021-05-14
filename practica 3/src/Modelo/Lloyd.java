@@ -28,7 +28,7 @@ public class Lloyd extends algoritmo {
 		v[1][3] = 0.7;
 
 	}
-	
+
 	public String resolver() {
 		Boolean ok = false;
 		int cont = 0;
@@ -36,7 +36,7 @@ public class Lloyd extends algoritmo {
 			Double[][] copia = new Double[2][4];
 			for (int i = 0; i < copia.length; i++) {
 				for (int j = 0; j < copia[i].length; j++) {
-					copia[i][j]=v[i][j];
+					copia[i][j] = v[i][j];
 				}
 			}
 
@@ -54,7 +54,6 @@ public class Lloyd extends algoritmo {
 	private String SeleccionarClase() {
 		ArrayList<Double> elemento = ejemplo.getElement();
 		ArrayList<Double> distancias = new ArrayList<Double>();
-		
 
 		for (int i = 0; i < v.length; i++) {
 			double dist = 0;
@@ -63,7 +62,7 @@ public class Lloyd extends algoritmo {
 			}
 			distancias.add(dist);
 		}
-		
+
 		int cont = 0;
 		double min = distancias.get(0);
 		for (int i = 1; i < distancias.size(); i++) { // seleccionamos el menor centro
@@ -80,7 +79,7 @@ public class Lloyd extends algoritmo {
 
 	private boolean comprobarTolerancia(Double[][] copia) {
 		ArrayList<Double> incrementos = new ArrayList<Double>();
-		
+
 		for (int i = 0; i < v.length; i++) {
 			double dist = 0;
 			for (int j = 0; j < v[i].length; j++) {
@@ -100,7 +99,6 @@ public class Lloyd extends algoritmo {
 	private int determinarCentro(int x) {
 		ArrayList<Double> elemento = lista.get(x).getElement();
 		ArrayList<Double> distancias = new ArrayList<Double>();
-		
 
 		for (int i = 0; i < v.length; i++) {// calculamos las d
 			double dist = 0;

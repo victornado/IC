@@ -17,7 +17,7 @@ public abstract class algoritmo {
 
 	public algoritmo(File entrada, File ejemplo) throws FileNotFoundException, IOException {
 		lista = new ArrayList<element>();
-		numElementos=0;
+		numElementos = 0;
 		cogerEntrada(entrada);
 		cogerEjemplo(ejemplo);
 	}
@@ -41,6 +41,6 @@ public abstract class algoritmo {
 				Double.parseDouble(elementoAux[2]), Double.parseDouble(elementoAux[3]), elementoAux[4]);
 
 	}
-	
+
 	public abstract String resolver();
 }

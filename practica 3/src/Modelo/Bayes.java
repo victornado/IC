@@ -33,28 +33,24 @@ public class Bayes extends algoritmo {
 	}
 
 	private void calculaMedias() {
-		int cont1=0;
-		int cont2=0;
+		int cont1 = 0;
+		int cont2 = 0;
 		for (int i = 0; i < numElementos; i++) {// por cada elemento
-			if(lista.get(i).getClase().equals("Iris-setosa")) {
-				for(int n=0;n<4;n++)
-				{
-					medias[0][n]+=lista.get(i).getElement().get(n);
+			if (lista.get(i).getClase().equals("Iris-setosa")) {
+				for (int n = 0; n < 4; n++) {
+					medias[0][n] += lista.get(i).getElement().get(n);
 				}
 				cont1++;
-			}
-			else {
-				for(int n=0;n<4;n++)
-				{
-					medias[1][n]+=lista.get(i).getElement().get(n);
+			} else {
+				for (int n = 0; n < 4; n++) {
+					medias[1][n] += lista.get(i).getElement().get(n);
 				}
 				cont2++;
 			}
 		}
-		for(int i=0;i<4;i++)
-		{
-			medias[0][i]=medias[0][i]/cont1;
-			medias[1][i]=medias[1][i]/cont2;
+		for (int i = 0; i < 4; i++) {
+			medias[0][i] = medias[0][i] / cont1;
+			medias[1][i] = medias[1][i] / cont2;
 		}
 	}
 
