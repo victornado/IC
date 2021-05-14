@@ -7,14 +7,13 @@ import java.io.IOException;
 public class Borroso extends algoritmo {
 	private int b;
 	private Double tolerancia;
-	private Double[][] medias, pertenencia, puntos;
+	private Double[][] medias, pertenencia;
 
 	public Borroso(File entrada, File ejemplo) throws FileNotFoundException, IOException {
 		super(entrada, ejemplo);
 		b = 2;
 		tolerancia = 0.01;
 		pertenencia = new Double[2][numElementos]; //grado de pertenencia de un elemento a cada clase
-		puntos = new Double[numElementos][4]; //4 dimensiones de cada punto
 		medias = new Double[2][4];
 		medias[0][0] = 4.6;
 		medias[0][1] = 3.0;
@@ -27,16 +26,17 @@ public class Borroso extends algoritmo {
 		medias[1][3] = 0.7;
 	}
 
-	public String resolver(Double[] punto) {
+	public String resolver() {
+		entrenarAlgoritmo();
 		Double valor_media1=0.0;
 		Double valor_media2=0.0;
 		Double pertenencia_media1=0.0;
 		Double pertenencia_media2=0.0;
 		for (int i = 0; i < medias[0].length; i++) {
-			valor_media1 += Math.pow((punto[i] - medias[0][i]), 2);
+			valor_media1 += Math.pow((ejemplo.getElement().get(i) - medias[0][i]), 2);
 		}
 		for (int i = 0; i < medias[1].length; i++) {
-			valor_media2 += Math.pow((punto[i] - medias[1][i]), 2);
+			valor_media2 += Math.pow((ejemplo.getElement().get(i) - medias[1][i]), 2);
 		}
 		//grado de pertenencia del elemento a la media 1
 		pertenencia_media1= (1/valor_media1)/((1/valor_media1)+(1/valor_media2));
@@ -44,13 +44,13 @@ public class Borroso extends algoritmo {
 		pertenencia_media2= (1/valor_media2)/((1/valor_media1)+(1/valor_media2));
 		
 		if(pertenencia_media1>pertenencia_media2)
-			return "El punto pertenece a la media 1";
+			return "Iris-setosa";
 		else
-			return "El punto pertenene a la media 2";
+			return "Iris-versicolor";
 	}
 	
 	
-	public void entrenarAlgoritmo() {
+	private void entrenarAlgoritmo() {
 		do {
 			for(int elem=0;elem<pertenencia[0].length;elem++)
 			{
@@ -65,10 +65,10 @@ public class Borroso extends algoritmo {
 		Double pertenencia_media1=0.0;
 		Double pertenencia_media2=0.0;
 		for (int i = 0; i < medias[0].length; i++) {
-			valor_media1 += Math.pow((puntos[elem][i] - medias[0][i]), 2);
+			valor_media1 += Math.pow((lista.get(elem).getElement().get(i) - medias[0][i]), 2);
 		}
 		for (int i = 0; i < medias[1].length; i++) {
-			valor_media2 += Math.pow((puntos[elem][i] - medias[1][i]), 2);
+			valor_media2 += Math.pow((lista.get(elem).getElement().get(i) - medias[1][i]), 2);
 		}
 		//grado de pertenencia del elemento a la media 1
 		pertenencia_media1= (1/valor_media1)/((1/valor_media1)+(1/valor_media2));
@@ -88,12 +88,12 @@ public class Borroso extends algoritmo {
 			Double[] numerador = {0.0, 0.0, 0.0, 0.0};
 			Double denominador=0.0;
 			Double pertcuadrado;
-			for(int i=0;i<puntos.length;i++) {
+			for(int i=0;i<lista.size();i++) {
 				pertcuadrado = Math.pow(pertenencia[media][i], 2);
 				
-				for(int n=0;n<puntos[i].length;n++)
+				for(int n=0;n<lista.get(i).getElement().size();n++)
 				{
-					numerador[n] += pertcuadrado*puntos[i][n];
+					numerador[n] += pertcuadrado*lista.get(i).getElement().get(n);
 				}
 				denominador+=pertcuadrado;
 			}

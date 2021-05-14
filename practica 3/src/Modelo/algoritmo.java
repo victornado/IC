@@ -41,4 +41,6 @@ public abstract class algoritmo {
 				Double.parseDouble(elementoAux[2]), Double.parseDouble(elementoAux[3]), elementoAux[4]);
 
 	}
+	
+	public abstract String resolver();
 }

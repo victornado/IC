@@ -28,46 +28,71 @@ public class Lloyd extends algoritmo {
 		v[1][3] = 0.7;
 
 	}
-
+	
 	public String resolver() {
 		Boolean ok = false;
-		while (!ok) {
-			
-			Double[][] copia = v;
+		int cont = 0;
+		while (!ok && cont < kMax) {
+			Double[][] copia = new Double[2][4];
+			for (int i = 0; i < copia.length; i++) {
+				for (int j = 0; j < copia[i].length; j++) {
+					copia[i][j]=v[i][j];
+				}
+			}
+
 			for (int i = 0; i < numElementos; i++) {
 				int centro = determinarCentro(i);// centro mas cercano a ese elemento
 				actualizarCentro(centro, i);
 			}
 			// tolerancia(¿seguir iterando?)
-			ok=comprobarTolerancia(copia);
+			ok = comprobarTolerancia(copia);
+			cont++;
 		}
 		return SeleccionarClase();
 	}
-	private String SeleccionarClase(){
+
+	private String SeleccionarClase() {
 		ArrayList<Double> elemento = ejemplo.getElement();
 		ArrayList<Double> distancias = new ArrayList<Double>();
-		double dist = 0;
+		
 
-		for (int i = 0; i < v.length; i++) {// calculamos las d
+		for (int i = 0; i < v.length; i++) {
+			double dist = 0;
 			for (int j = 0; j < v[i].length; j++) {
-				dist += Math.abs(elemento.get(j) - v[i][j]);
+				dist += Math.pow(elemento.get(j) - v[i][j], 2);
 			}
 			distancias.add(dist);
 		}
+		
+		int cont = 0;
+		double min = distancias.get(0);
+		for (int i = 1; i < distancias.size(); i++) { // seleccionamos el menor centro
+			if (distancias.get(i) < min) {
+				min = distancias.get(i);
+				cont = i;
+			}
+		}
+		if (cont == 0)
+			return "Iris-setosa";
+		else
+			return "Iris-versicolor";
 	}
-	
+
 	private boolean comprobarTolerancia(Double[][] copia) {
 		ArrayList<Double> incrementos = new ArrayList<Double>();
-		double dist = 0;
+		
 		for (int i = 0; i < v.length; i++) {
+			double dist = 0;
 			for (int j = 0; j < v[i].length; j++) {
 				dist += Math.pow(v[i][j] - copia[i][j], 2);
 			}
 			incrementos.add(Math.sqrt(dist));
 		}
-		//recorremos la los incrementos para ver si hay que seguir iterando
+		// recorremos la los incrementos para ver si hay que seguir iterando
 		for (int i = 0; i < incrementos.size(); i++) {
-			if(incrementos.get(i)>tolerancia) return false;
+			if (incrementos.get(i) >= tolerancia) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -75,16 +100,17 @@ public class Lloyd extends algoritmo {
 	private int determinarCentro(int x) {
 		ArrayList<Double> elemento = lista.get(x).getElement();
 		ArrayList<Double> distancias = new ArrayList<Double>();
-		double dist = 0;
+		
 
 		for (int i = 0; i < v.length; i++) {// calculamos las d
+			double dist = 0;
 			for (int j = 0; j < v[i].length; j++) {
-				dist += Math.abs(elemento.get(j) - v[i][j]);
+				dist += Math.pow(elemento.get(j) - v[i][j], 2);
 			}
 			distancias.add(dist);
 		}
 
-		int cont = 12312;
+		int cont = 0;
 		double min = distancias.get(0);
 
 		for (int i = 1; i < distancias.size(); i++) { // seleccionamos el menor centro
@@ -98,7 +124,7 @@ public class Lloyd extends algoritmo {
 
 	private void actualizarCentro(int centro, int elemento) {
 		for (int i = 0; i < v[centro].length; i++) {
-			v[centro][i] += constante * (lista.get(elemento).getElement().get(i) - v[centro][i]);
+			v[centro][i] += (constante * (lista.get(elemento).getElement().get(i) - v[centro][i]));
 		}
 	}
 }
