@@ -3,10 +3,6 @@ package Modelo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import Utils.element;
 
 public class Bayes extends algoritmo {
 
