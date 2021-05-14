@@ -33,10 +33,10 @@ public class Borroso extends algoritmo {
 		Double pertenencia_media1 = 0.0;
 		Double pertenencia_media2 = 0.0;
 		for (int i = 0; i < medias[0].length; i++) {
-			valor_media1 += Math.pow((ejemplo.getElement().get(i) - medias[0][i]), 2);
+			valor_media1 += Math.pow((ejemplo.getElement().get(i) - medias[0][i]), b);
 		}
 		for (int i = 0; i < medias[1].length; i++) {
-			valor_media2 += Math.pow((ejemplo.getElement().get(i) - medias[1][i]), 2);
+			valor_media2 += Math.pow((ejemplo.getElement().get(i) - medias[1][i]), b);
 		}
 		// grado de pertenencia del elemento a la media 1
 		pertenencia_media1 = (1 / valor_media1) / ((1 / valor_media1) + (1 / valor_media2));
@@ -64,10 +64,10 @@ public class Borroso extends algoritmo {
 		Double pertenencia_media1 = 0.0;
 		Double pertenencia_media2 = 0.0;
 		for (int i = 0; i < medias[0].length; i++) {
-			valor_media1 += Math.pow((lista.get(elem).getElement().get(i) - medias[0][i]), 2);
+			valor_media1 += Math.pow((lista.get(elem).getElement().get(i) - medias[0][i]), b);
 		}
 		for (int i = 0; i < medias[1].length; i++) {
-			valor_media2 += Math.pow((lista.get(elem).getElement().get(i) - medias[1][i]), 2);
+			valor_media2 += Math.pow((lista.get(elem).getElement().get(i) - medias[1][i]), b);
 		}
 		// grado de pertenencia del elemento a la media 1
 		pertenencia_media1 = (1 / valor_media1) / ((1 / valor_media1) + (1 / valor_media2));
